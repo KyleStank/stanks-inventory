@@ -22,7 +22,6 @@ GameObject:
   - 222: {fileID: 222000011041538510}
   - 114: {fileID: 114000013052233970}
   - 114: {fileID: 114000013284330244}
-  - 114: {fileID: 114000013487206820}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
@@ -113,7 +112,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114000013487206820}
+      - m_Target: {fileID: 0}
         m_MethodName: OnItemClicked
         m_Mode: 1
         m_Arguments:
@@ -126,21 +125,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114000013487206820
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010869479478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecf6f40f7cac64a45871b5e1107be7b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemsHolder: {fileID: 0}
-  item:
-    name: 
-    icon: {fileID: 0}
 --- !u!114 &114000014095173710
 MonoBehaviour:
   m_ObjectHideFlags: 1

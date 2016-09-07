@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public sealed class ItemObject : MonoBehaviour {
-    //Private variables
-    [SerializeField]
-    Item item;
+namespace KStank.stanks_inventory {
+    public sealed class ItemObject : MonoBehaviour {
+        //Private variables
+        [SerializeField]
+        Item item = null;
 
-    [SerializeField]
-    float destroyTime;
-
-    void OnTriggerEnter(Collider col) {
-        //Check for null not needed because it is already built into the Add() method
-        Player.Inventory.Pickup(item);
-
-        //Not needed, but heck, why not. Only destroy if the item is actually there
-        if(item != null)
-            Destroy(gameObject, destroyTime);
+        void OnTriggerEnter(Collider col) {
+            if(col.tag == "Player") {
+                //Invoke Inventory.Pickup() method
+                col.SendMessage("PickupInventoryItem", item, SendMessageOptions.DontRequireReceiver);
+            }
+        }
     }
 }
