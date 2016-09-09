@@ -15,6 +15,14 @@ namespace KStank.stanks_inventory {
             set { displayItem = value; }
         }
 
+        /// <summary>
+        /// Image that is used to display item's icon to the screen.
+        /// </summary>
+        public Image IconImage {
+            get { return iconImage; }
+            set { iconImage = value; }
+        }
+
         void Awake() {
             iconImage = transform.GetChild(0).GetComponent<Image>();
             DisableIcon();
@@ -23,7 +31,7 @@ namespace KStank.stanks_inventory {
         /// <summary>
         /// Updates the slot to the item.
         /// </summary>
-        /// <param name="icon">Item to update slot to..</param>
+        /// <param name="icon">Item to update slot to.</param>
         public void UpdateSlot(Item item) {
             if(iconImage == null || item == null)
                 return;

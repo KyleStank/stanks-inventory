@@ -37,15 +37,17 @@ namespace KStank.stanks_inventory {
             }
         }
 
-        public void PickupInventoryItem(Item item) {
+        void PickupInventoryItem(Item item) {
             inventory.Pickup(item);
 
+            //Go through every item in inventory
             for(int i = 0; i < inventory.TakenSpace; i++) {
                 Item _item = inventory.GetAt(i);
 
                 if(_item.GetHashCode() == item.GetHashCode()) {
                     Slot slot = slots[i];
 
+                    //Set the slot
                     slot.UpdateSlot(item);
                     slot.EnableIcon();
                 }
