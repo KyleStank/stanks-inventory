@@ -1,11 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace KStank.stanks_inventory {
+    public sealed class InventoryData {
+        public List<Item> InventoryList = new List<Item>();
+        public int MaxItems = 0;
+
+        public InventoryData(List<Item> InventoryList, int MaxItems) {
+            this.InventoryList = InventoryList;
+            this.MaxItems = MaxItems;
+        }
+    }
+
     public class Inventory : MonoBehaviour {
         //Private variables
         List<Item> inventoryList = new List<Item>();
         int maxItems = 0;
+
+        [SerializeField]
+        string fileName = "";
 
         //Properties
         /// <summary>
@@ -144,7 +160,7 @@ namespace KStank.stanks_inventory {
         public void Pickup(Item item) {
             if(!item.Collected && IsRoom()) { //If item hasn't already been picked up
                 item.Collected = true;
-                
+
                 Add(item);
             }
         }
@@ -158,6 +174,44 @@ namespace KStank.stanks_inventory {
                 return true;
             else
                 return false;
+        }
+
+        /// <summary>
+        /// Save the information of inventory.
+        /// </summary>
+        public void Save() {
+            InventoryData data = new InventoryData(InventoryList, MaxItems);
+            string path = Application.dataPath + "/" + fileName + ".json";
+            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+
+            //Write to file
+            using(StreamWriter writer = new StreamWriter(path)) {
+                writer.WriteLine(json);
+            }
+        }
+        
+        /// <summary>
+        /// Load all of the inventory data.
+        /// </summary>
+        public void Load() {
+            string path = Application.dataPath + "/" + fileName + ".json";
+            string json = "";
+
+            //If file doesn't exist
+            if(!File.Exists(path)) {
+                Debug.Log(path + " does not exist!");
+                return;
+            }
+
+            //Read json contents from file
+            using(StreamReader streamReader = new StreamReader(path)) {
+                json = streamReader.ReadToEnd();
+            }
+            
+            //Load information
+            InventoryData data = JsonConvert.DeserializeObject<InventoryData>(json);
+            MaxItems = data.MaxItems;
+            InventoryList = data.InventoryList;
         }
     }
 }

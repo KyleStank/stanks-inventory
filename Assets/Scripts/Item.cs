@@ -10,6 +10,7 @@ namespace KStank.stanks_inventory {
         string name = "";
         [SerializeField]
         Sprite icon = null;
+        string iconName = "";
         bool collected = false;
 
         //Properties
@@ -30,11 +31,16 @@ namespace KStank.stanks_inventory {
         }
 
         /// <summary>
-        /// The icon that the item will use when displayed in UI.
+        /// The name of the icon that will be displayed.
         /// </summary>
-        public Sprite Icon {
-            get { return icon; }
-            set { icon = value; }
+        public string IconName {
+            get {
+                if(icon != null)
+                    return icon.name;
+
+                return iconName;
+            }
+            set { iconName = value; }
         }
 
         /// <summary>
@@ -42,10 +48,9 @@ namespace KStank.stanks_inventory {
         /// </summary>
         /// <param name="name">Name of the item.</param>
         /// <param name="value">Value of the item.</param>
-        public Item(string name, bool collected, Sprite icon = null) {
+        public Item(string name, bool collected) {
             Name = name;
             Collected = collected;
-            Icon = icon;
         }
     }
 }

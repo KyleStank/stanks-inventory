@@ -8,10 +8,8 @@ namespace KStank.stanks_inventory {
         Item item = null;
 
         void OnTriggerEnter(Collider col) {
-            if(col.tag == "Player") {
-                //Invoke Inventory.Pickup() method
+            if(col.tag == "Player")
                 col.SendMessage("PickupInventoryItem", item, SendMessageOptions.DontRequireReceiver);
-            }
         }
     }
 }

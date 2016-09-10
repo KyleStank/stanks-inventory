@@ -4,7 +4,9 @@ using System.Collections;
 
 namespace KStank.stanks_inventory {
     public class Slot : MonoBehaviour {
+        [SerializeField]
         Item displayItem = null;
+        [SerializeField]
         Image iconImage = null;
 
         /// <summary>
@@ -29,35 +31,59 @@ namespace KStank.stanks_inventory {
         }
 
         /// <summary>
-        /// Updates the slot to the item.
+        /// Updates the item that will be displayed.
         /// </summary>
-        /// <param name="icon">Item to update slot to.</param>
+        /// <param name="icon">Item to update to.</param>
+        public void UpdateItem(Item item) {
+            DisplayItem = item;
+
+            if(DisplayItem == null) {
+                IconImage.sprite = null;
+                return;
+            }
+
+            IconImage.sprite = Resources.Load("Item Icons/" + DisplayItem.IconName, typeof(Sprite)) as Sprite;
+        }
+
+        /// <summary>
+        /// Updates the entire object, meaning it's Display Item, it's Icon to display, and it will enable it.
+        /// </summary>
+        /// <param name="item">Item to display.</param>
         public void UpdateSlot(Item item) {
-            if(iconImage == null || item == null)
+            UpdateItem(item);
+            EnableIcon();
+        }
+
+        /// <summary>
+        /// This will set the Display Item and Icon to null. It will also disable the Icon.
+        /// So basically, the default settings of a Slot object.
+        /// </summary>
+        public void RuinSlot() {
+            if(IconImage == null)
                 return;
 
-            DisplayItem = item;
-            iconImage.overrideSprite = DisplayItem.Icon;
+            UpdateItem(null);
+            DisableIcon();
         }
 
         /// <summary>
         /// Enable the slot's icon.
         /// </summary>
         public void EnableIcon() {
-            if(iconImage == null)
+            if(IconImage == null)
                 return;
 
-            iconImage.enabled = true;
+            IconImage.enabled = true;
         }
 
         /// <summary>
         /// Disable the slot's icon.
         /// </summary>
         public void DisableIcon() {
-            if(iconImage == null)
+            if(IconImage == null)
                 return;
 
-            iconImage.enabled = false;
+            IconImage.enabled = false;
         }
     }
 }
