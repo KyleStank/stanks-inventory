@@ -52,7 +52,7 @@ namespace KStank.stanks_inventory {
                 
                 if(distance < width) {
                     transform.SetSiblingIndex(i);
-                    IconImage.rectTransform.position = slot.IconImage.rectTransform.position;
+                    IconImage.rectTransform.position = slotPos;
                 }
             }
         }
