@@ -11,6 +11,7 @@ namespace KStank.stanks_inventory {
         [SerializeField]
         Sprite icon = null;
         string iconName = "";
+        int pos = 0;
         bool collected = false;
 
         //Properties
@@ -20,14 +21,6 @@ namespace KStank.stanks_inventory {
         public string Name {
             get { return name; }
             set { name = value; }
-        }
-
-        /// <summary>
-        /// Is the item collected or not?
-        /// </summary>
-        public bool Collected {
-            get { return collected; }
-            set { collected = value; }
         }
 
         /// <summary>
@@ -43,14 +36,27 @@ namespace KStank.stanks_inventory {
             set { iconName = value; }
         }
 
+        public int Position {
+            get { return pos; }
+            set { pos = value; }
+        }
+
+        /// <summary>
+        /// Is the item collected or not?
+        /// </summary>
+        public bool Collected {
+            get { return collected; }
+            set { collected = value; }
+        }
+
         /// <summary>
         /// Object that can go inside of the inventory.
         /// </summary>
         /// <param name="name">Name of the item.</param>
-        /// <param name="value">Value of the item.</param>
-        public Item(string name, bool collected) {
+        /// <param name="position">Position of the item.</param>
+        public Item(string name, int position) {
             Name = name;
-            Collected = collected;
+            Position = position;
         }
     }
 }

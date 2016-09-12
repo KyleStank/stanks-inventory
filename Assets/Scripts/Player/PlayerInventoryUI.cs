@@ -28,15 +28,24 @@ namespace KStank.stanks_inventory {
 
             //Setup the slots
             for(int i = 0; i < itemHolder.childCount; i++) {
+                //Add slot to list
                 slots.Add(itemHolder.GetChild(i).GetComponent<Slot>());
-
                 Slot slot = slots[i];
-                Item item = inventory.GetAt(i);
-                
-                if(slot == null || item == null)
+
+                if(slot == null)
                     continue;
 
-                slot.UpdateSlot(item);
+                //Loop through every inventory item, for every slot iteration
+                for(int u = 0; u < inventory.TakenSpace; u++) {
+                    Item item = inventory.GetAt(u);
+
+                    if(item == null)
+                        continue;
+
+                    //If the item's position is equal to the current slot iteration, update it
+                    if(item.Position == i)
+                        slot.UpdateSlot(item);
+                }
             }
         }
 
@@ -46,6 +55,7 @@ namespace KStank.stanks_inventory {
                     return;
 
                 inventoryGm.SetActive(!inventoryGm.activeInHierarchy);
+                inventory.Save();
             }
         }
 
@@ -54,13 +64,15 @@ namespace KStank.stanks_inventory {
             
             //Go through every item in inventory
             for(int i = 0; i < inventory.TakenSpace; i++) {
-                Item _item = inventory.GetAt(i);
+                Item _item = inventory.Find(inventory.GetAt(i).Name);
 
-                //Make sure that item exists by checking the object's hash code
-                if(_item.GetHashCode() == item.GetHashCode()) {
-                    Slot slot = slots[i]; //THIS IS CAUSING THE ERROR
+                //Make sure item exists in the inventory
+                if(_item == null)
+                    continue;
 
-                    //Set the slot
+                if(_item == item) {
+                    Slot slot = slots[i];
+
                     slot.UpdateSlot(item);
                 }
             }

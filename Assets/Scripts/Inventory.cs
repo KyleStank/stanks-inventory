@@ -59,23 +59,12 @@ namespace KStank.stanks_inventory {
         /// Searches for all items that have a provided name.
         /// </summary>
         /// <param name="name">Name of item(s) to search for.</param>
-        /// <returns>Array of items that were found.</returns>
-        public Item[] Find(string name, bool debug = false) {
-            List<Item> items = new List<Item>();
+        /// <returns>Array of items that were found. If no items were found, returns null.</returns>
+        public Item Find(string name) {
+            //Search each item
+            Item item = InventoryList.Find(i => i.Name == name);
 
-            if(items != null) {
-                //Search each item
-                foreach(Item item in InventoryList)
-                    if(item.Name == name)
-                        items.Add(item);
-
-                //Return as array
-                return items.ToArray();
-            } else
-                if(debug)
-                Debug.LogError("Could not find any items with the name of '" + name + "'!");
-
-            return null;
+            return item;
         }
 
         /// <summary>
@@ -88,7 +77,7 @@ namespace KStank.stanks_inventory {
                 return InventoryList[index];
             else
                 if(debug)
-                Debug.LogError("Inventory does not contain an item at [" + index.ToString() + "]!");
+                    Debug.LogError("Inventory does not contain an item at [" + index.ToString() + "]!");
 
             return null;
         }
@@ -101,6 +90,8 @@ namespace KStank.stanks_inventory {
             if(item != null) {
                 if(IsRoom()) {
                     InventoryList.Add(item);
+                    
+                    item.Position = TakenSpace - 1;
                 } else {
                     if(debug) {
                         Debug.LogError("Cannot add the item '" + item.Name + "' " +
@@ -144,13 +135,12 @@ namespace KStank.stanks_inventory {
         /// </summary>
         /// <param name="name">Name to search for</param>
         public void Remove(string name) {
-            Item[] items = Find(name);
+            Item item = Find(name);
 
-            //Search each item
-            foreach(Item item in items) {
-                if(item.Name == name) //If we find a match
-                    Remove(item);
-            }
+            if(item == null)
+                return;
+
+            Remove(item);
         }
 
         /// <summary>
@@ -159,8 +149,11 @@ namespace KStank.stanks_inventory {
         /// <param name="item">Item that is being picked up.</param>
         public void Pickup(Item item) {
             if(!item.Collected && IsRoom()) { //If item hasn't already been picked up
-                item.Collected = true;
+                if(Find(item.Name) != null)
+                    return;
 
+                item.Collected = true;
+                
                 Add(item);
             }
         }

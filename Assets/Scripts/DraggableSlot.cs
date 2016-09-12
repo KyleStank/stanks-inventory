@@ -57,6 +57,7 @@ namespace KStank.stanks_inventory {
                 //Get the distance from the slot icon to the items, then set the new position
                 float distance = Vector2.Distance(eventData.position, slotPos);
                 if(distance <= width) {
+                    DisplayItem.Position = i;
                     slot.UpdateSlot(DisplayItem);
                     RuinSlot();
                 }

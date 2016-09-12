@@ -1,14 +1,16 @@
 {
   "InventoryList": [
     {
-      "Name": "Handgun",
-      "Collected": true,
-      "IconName": "Handgun"
+      "Name": "Sword",
+      "IconName": "Sword",
+      "Position": 0,
+      "Collected": true
     },
     {
       "Name": "Axe",
-      "Collected": true,
-      "IconName": "Axe"
+      "IconName": "Axe",
+      "Position": 2,
+      "Collected": true
     }
   ],
   "MaxItems": 4
