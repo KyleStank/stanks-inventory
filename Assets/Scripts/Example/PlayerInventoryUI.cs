@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.IO;
 
-namespace KStank.stanks_inventory {
+namespace KStank.stanks_inventory.Example {
+    /// <summary>
+    /// Example script of properly displaying items to the screen.
+    /// </summary>
     public sealed class PlayerInventoryUI : MonoBehaviour {
         Inventory inventory = null;
         List<Slot> slots = new List<Slot>();
@@ -18,6 +20,9 @@ namespace KStank.stanks_inventory {
 
             if(inventory == null)
                 gameObject.AddComponent<Inventory>();
+
+            //Load item pool
+            Item.LoadItemPool();
 
             //Find inventory
             inventoryGm = GameObject.Find("Inventory");
@@ -59,25 +64,29 @@ namespace KStank.stanks_inventory {
             }
         }
 
-        void PickupInventoryItem(Item item) {
+        void PickupInventoryItem(int id) {
+            Item item = Item.LookUpItem(id);
+
+            if(item == null)
+                return;
+
             inventory.Pickup(item);
             
             //Go through every item in inventory
             for(int i = 0; i < inventory.TakenSpace; i++) {
-                Item _item = inventory.Find(inventory.GetAt(i).Name);
+                Item _item = inventory.Find(inventory.GetAt(i).ID);
 
                 //Make sure item exists in the inventory
                 if(_item == null)
                     continue;
 
+                //If item exists, update the slot it goes to
                 if(_item == item) {
                     Slot slot = slots[i];
 
                     slot.UpdateSlot(item);
                 }
             }
-
-            inventory.Save();
         }
     }
 }

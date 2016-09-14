@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace KStank.stanks_inventory {
+namespace KStank.stanks_inventory.Example {
+    /// <summary>
+    /// Basic player movment used for the example scene.
+    /// </summary>
     public sealed class PlayerMovement : MonoBehaviour {
         //Public movement variables
         public float moveSpeed = 5.0f;

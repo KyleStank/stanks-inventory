@@ -2,19 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace KStank.stanks_inventory {
-    public sealed class InventoryData {
-        public List<Item> InventoryList = new List<Item>();
-        public int MaxItems = 0;
-
-        public InventoryData(List<Item> InventoryList, int MaxItems) {
-            this.InventoryList = InventoryList;
-            this.MaxItems = MaxItems;
-        }
-    }
-
+    /// <summary>
+    /// Inventory class. Simply use "new Inventory()" to create an Inventory for anything.
+    /// </summary>
     public class Inventory : MonoBehaviour {
         //Private variables
         List<Item> inventoryList = new List<Item>();
@@ -23,7 +15,9 @@ namespace KStank.stanks_inventory {
         [SerializeField]
         string fileName = "";
 
-        //Properties
+        /*
+        Properties
+        */
         /// <summary>
         /// The entire inventory.
         /// </summary>
@@ -54,15 +48,17 @@ namespace KStank.stanks_inventory {
             get { return InventoryList.Count; }
         }
 
-        //Public methods
+        /*
+        Public Methods
+        */
         /// <summary>
-        /// Searches for all items that have a provided name.
+        /// Searches all items for a specific item.
         /// </summary>
-        /// <param name="name">Name of item(s) to search for.</param>
-        /// <returns>Array of items that were found. If no items were found, returns null.</returns>
-        public Item Find(string name) {
+        /// <param name="id">ID of item to search for.</param>
+        /// <returns>Item that was found. If none was found, returns null.</returns>
+        public Item Find(int id) {
             //Search each item
-            Item item = InventoryList.Find(i => i.Name == name);
+            Item item = InventoryList.Find(i => i.ID == id);
 
             return item;
         }
@@ -72,12 +68,9 @@ namespace KStank.stanks_inventory {
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public Item GetAt(int index, bool debug = false) {
+        public Item GetAt(int index) {
             if(index < InventoryList.Count)
                 return InventoryList[index];
-            else
-                if(debug)
-                    Debug.LogError("Inventory does not contain an item at [" + index.ToString() + "]!");
 
             return null;
         }
@@ -86,61 +79,38 @@ namespace KStank.stanks_inventory {
         /// Add an item to the inventory. Checks if there is room first.
         /// </summary>
         /// <param name="item">Item to add.</param>
-        public void Add(Item item, bool debug = false) {
-            if(item != null) {
-                if(IsRoom()) {
-                    InventoryList.Add(item);
-                    
-                    item.Position = TakenSpace - 1;
-                } else {
-                    if(debug) {
-                        Debug.LogError("Cannot add the item '" + item.Name + "' " +
-                            "to the inventory because there is no room!");
-                    }
-                }
-            } else {
-                if(debug) {
-                    Debug.LogError("Cannot add the item '" + item.Name + "' " +
-                        "to the inventory because it is null!");
-                }
+        public void Add(Item item) {
+            if(item == null)
+                return;
+
+            if(IsRoom()) { //If there is room to add the item
+                InventoryList.Add(item);
+
+                item.Position = TakenSpace - 1;
             }
+        }
+
+        public void Add(int id) {
+            Add(Find(id));
         }
 
         /// <summary>
         /// Removes an item from the inventory.
         /// </summary>
         /// <param name="item">Item to remove.</param>
-        public void Remove(Item item, bool debug = false) {
-            if(item != null)
-                InventoryList.Remove(item);
-            else
-                if(debug)
-                Debug.LogError("Cannot remove item '" + item.Name + "' because it is null!");
-        }
-
-        /// <summary>
-        /// Removes an item from the inventory at a provided index.
-        /// </summary>
-        /// <param name="index">Index to remove from.</param>
-        public void Remove(int index, bool debug = false) {
-            if(index < InventoryList.Count)
-                InventoryList.RemoveAt(index);
-            else
-                if(debug)
-                Debug.LogError("Inventory does not contain an item at [" + index.ToString() + "]!");
-        }
-
-        /// <summary>
-        /// Removes an item or items from the inventory that have a matching name.
-        /// </summary>
-        /// <param name="name">Name to search for</param>
-        public void Remove(string name) {
-            Item item = Find(name);
-
+        public void Remove(Item item) {
             if(item == null)
                 return;
 
-            Remove(item);
+            InventoryList.Remove(item);
+        }
+
+        /// <summary>
+        /// Removes an item from the inventory.
+        /// </summary>
+        /// <param name="index">ID of Item to remove.</param>
+        public void Remove(int id) {
+            Remove(Find(id));
         }
 
         /// <summary>
@@ -149,7 +119,7 @@ namespace KStank.stanks_inventory {
         /// <param name="item">Item that is being picked up.</param>
         public void Pickup(Item item) {
             if(!item.Collected && IsRoom()) { //If item hasn't already been picked up
-                if(Find(item.Name) != null)
+                if(Find(item.ID) != null)
                     return;
 
                 item.Collected = true;
@@ -173,21 +143,20 @@ namespace KStank.stanks_inventory {
         /// Save the information of inventory.
         /// </summary>
         public void Save() {
-            InventoryData data = new InventoryData(InventoryList, MaxItems);
-            string path = Application.dataPath + "/" + fileName + ".json";
+            InventoryJson data = new InventoryJson(InventoryList, MaxItems);
+            string path = Application.dataPath + "/Data/" + fileName + ".json";
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
 
             //Write to file
-            using(StreamWriter writer = new StreamWriter(path)) {
+            using(StreamWriter writer = new StreamWriter(path))
                 writer.WriteLine(json);
-            }
         }
         
         /// <summary>
         /// Load all of the inventory data.
         /// </summary>
         public void Load() {
-            string path = Application.dataPath + "/" + fileName + ".json";
+            string path = Application.dataPath + "/Data/" + fileName + ".json";
             string json = "";
 
             //If file doesn't exist
@@ -197,14 +166,23 @@ namespace KStank.stanks_inventory {
             }
 
             //Read json contents from file
-            using(StreamReader streamReader = new StreamReader(path)) {
+            using(StreamReader streamReader = new StreamReader(path))
                 json = streamReader.ReadToEnd();
-            }
-            
+
             //Load information
-            InventoryData data = JsonConvert.DeserializeObject<InventoryData>(json);
+            InventoryJson data = JsonConvert.DeserializeObject<InventoryJson>(json);
             MaxItems = data.MaxItems;
             InventoryList = data.InventoryList;
+        }
+
+        class InventoryJson {
+            public List<Item> InventoryList = new List<Item>();
+            public int MaxItems = 0;
+
+            public InventoryJson(List<Item> InventoryList, int MaxItems) {
+                this.InventoryList = InventoryList;
+                this.MaxItems = MaxItems;
+            }
         }
     }
 }

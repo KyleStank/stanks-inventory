@@ -4,6 +4,9 @@ using UnityEngine.EventSystems;
 using System.Collections;
 
 namespace KStank.stanks_inventory {
+    /// <summary>
+    /// Same as the Slot class, except it can be dragged.
+    /// </summary>
     public class DraggableSlot : Slot, IBeginDragHandler, IDragHandler, IEndDragHandler {
         Transform parent = null;
         GameObject draggingGo = null;
@@ -49,7 +52,7 @@ namespace KStank.stanks_inventory {
                 //Get the slot
                 Transform slotTransform = parent.GetChild(i);
                 Slot slot = slotTransform.GetComponent<Slot>();
-                
+
                 //Get slot info
                 float width = slot.IconImage.rectTransform.rect.width;
                 Vector2 slotPos = slot.transform.position;
@@ -57,6 +60,9 @@ namespace KStank.stanks_inventory {
                 //Get the distance from the slot icon to the items, then set the new position
                 float distance = Vector2.Distance(eventData.position, slotPos);
                 if(distance <= width) {
+                    if(slot == this) //If the slot found is this current slot
+                        return;
+
                     DisplayItem.Position = i;
                     slot.UpdateSlot(DisplayItem);
                     RuinSlot();

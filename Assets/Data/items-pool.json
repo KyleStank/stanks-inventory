@@ -1,0 +1,37 @@
+[
+  {
+    "ID": 1,
+	"Name": "Sword",
+	"IconName": "Sword",
+	"Position": 0,
+	"Collected": false
+  },
+  {
+    "ID": 2,
+	"Name": "Axe",
+	"IconName": "Axe",
+	"Position": 0,
+	"Collected": false
+  },
+  {
+    "ID": 3,
+	"Name": "Handgun",
+	"IconName": "Handgun",
+	"Position": 0,
+	"Collected": false
+  },
+  {
+    "ID": 4,
+	"Name": "SMG",
+	"IconName": "SMG",
+	"Position": 0,
+	"Collected": false
+  },
+  {
+    "ID": 5,
+	"Name": "SMG 2.0",
+	"IconName": "SMG",
+	"Position": 0,
+	"Collected": false
+  },
+]

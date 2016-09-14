@@ -3,6 +3,9 @@ using UnityEngine.UI;
 using System.Collections;
 
 namespace KStank.stanks_inventory {
+    /// <summary>
+    /// Contains a display item that is display to the screen.
+    /// </summary>
     public class Slot : MonoBehaviour {
         [SerializeField]
         Item displayItem = null;

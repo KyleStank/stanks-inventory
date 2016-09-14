@@ -277,6 +277,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1410d136d92f64f971fd63e732ddce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayItem:
+    name: 
+    icon: {fileID: 0}
+  iconImage: {fileID: 0}
 --- !u!1 &315889569
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +428,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1410d136d92f64f971fd63e732ddce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayItem:
+    name: 
+    icon: {fileID: 0}
+  iconImage: {fileID: 0}
 --- !u!1 &405087647
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,10 +524,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ecb3f33245b7e42865ecb316a0e71a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: Handgun
-    icon: {fileID: 21300000, guid: 953d8ab62baba694d8f26356d52da303, type: 3}
-    iconName: Handgun
+  itemId: 3
+  items:
+  - name: Sword
+    icon: {fileID: 0}
+  - name: Axe
+    icon: {fileID: 0}
+  - name: Handgun
+    icon: {fileID: 0}
+  - name: SMG
+    icon: {fileID: 0}
+  - name: SMG 2.0
+    icon: {fileID: 0}
 --- !u!23 &449556102
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -859,10 +875,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ecb3f33245b7e42865ecb316a0e71a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: Sword
-    icon: {fileID: 21300000, guid: 8d82fd7867d4e23419719684175c5b1c, type: 3}
-    iconName: Sword
+  itemId: 1
+  items:
+  - name: Sword
+    icon: {fileID: 0}
+  - name: Axe
+    icon: {fileID: 0}
+  - name: Handgun
+    icon: {fileID: 0}
+  - name: SMG
+    icon: {fileID: 0}
+  - name: SMG 2.0
+    icon: {fileID: 0}
 --- !u!23 &1266636294
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1068,10 +1092,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ecb3f33245b7e42865ecb316a0e71a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: SMG 2.0
-    icon: {fileID: 21300000, guid: 8922c1c7d3e9cc24daf027385103748f, type: 3}
-    iconName: SMG
+  itemId: 5
+  items:
+  - name: Sword
+    icon: {fileID: 0}
+  - name: Axe
+    icon: {fileID: 0}
+  - name: Handgun
+    icon: {fileID: 0}
+  - name: SMG
+    icon: {fileID: 0}
+  - name: SMG 2.0
+    icon: {fileID: 0}
 --- !u!23 &1297240041
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1274,10 +1306,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ecb3f33245b7e42865ecb316a0e71a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: Axe
-    icon: {fileID: 21300000, guid: a572b40527e097849bffbf2ce7793b0e, type: 3}
-    iconName: Axe
+  itemId: 2
+  items:
+  - name: Sword
+    icon: {fileID: 0}
+  - name: Axe
+    icon: {fileID: 0}
+  - name: Handgun
+    icon: {fileID: 0}
+  - name: SMG
+    icon: {fileID: 0}
+  - name: SMG 2.0
+    icon: {fileID: 0}
 --- !u!1 &1641101357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,10 +1489,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ecb3f33245b7e42865ecb316a0e71a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    name: SMG
-    icon: {fileID: 21300000, guid: 8922c1c7d3e9cc24daf027385103748f, type: 3}
-    iconName: SMG
+  itemId: 4
+  items:
+  - name: Sword
+    icon: {fileID: 0}
+  - name: Axe
+    icon: {fileID: 0}
+  - name: Handgun
+    icon: {fileID: 0}
+  - name: SMG
+    icon: {fileID: 0}
+  - name: SMG 2.0
+    icon: {fileID: 0}
 --- !u!23 &1841482419
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1582,6 +1630,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1410d136d92f64f971fd63e732ddce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayItem:
+    name: 
+    icon: {fileID: 0}
+  iconImage: {fileID: 0}
 --- !u!1 &1865436076
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,6 +1715,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1410d136d92f64f971fd63e732ddce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayItem:
+    name: 
+    icon: {fileID: 0}
+  iconImage: {fileID: 0}
 --- !u!1 &1867025538
 GameObject:
   m_ObjectHideFlags: 0
