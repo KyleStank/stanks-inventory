@@ -30,7 +30,7 @@ namespace KStank.stanks_inventory {
 
         void Awake() {
             iconImage = transform.GetChild(0).GetComponent<Image>();
-            DisableIcon();
+            ResetSlot();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace KStank.stanks_inventory {
         /// This will set the Display Item and Icon to null. It will also disable the Icon.
         /// So basically, the default settings of a Slot object.
         /// </summary>
-        public void RuinSlot() {
+        public void ResetSlot() {
             if(IconImage == null)
                 return;
 

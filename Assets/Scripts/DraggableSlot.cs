@@ -63,9 +63,26 @@ namespace KStank.stanks_inventory {
                     if(slot == this) //If the slot found is this current slot
                         return;
 
-                    DisplayItem.Position = i;
-                    slot.UpdateSlot(DisplayItem);
-                    RuinSlot();
+                    if(slot.DisplayItem == null) {
+                        DisplayItem.Position = i;
+                        slot.UpdateSlot(DisplayItem);
+
+                        //Remove item from current slot after place
+                        ResetSlot();
+                    } else {
+                        Item curItem = DisplayItem;
+                        Item slotItem = slot.DisplayItem;
+                        int cPos = curItem.Position;
+                        int sPos = slotItem.Position;
+
+                        //Update positions
+                        curItem.Position = sPos;
+                        slotItem.Position = cPos;
+
+                        //Switch items in slots
+                        UpdateSlot(slotItem);
+                        slot.UpdateSlot(curItem);
+                    }
                 }
             }
         }

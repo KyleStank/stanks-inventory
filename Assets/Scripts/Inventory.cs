@@ -144,8 +144,15 @@ namespace KStank.stanks_inventory {
         /// </summary>
         public void Save() {
             InventoryJson data = new InventoryJson(InventoryList, MaxItems);
-            string path = Application.dataPath + "/Data/" + fileName + ".json";
+            string directory = Application.streamingAssetsPath;
+            string path = directory + "/" + fileName + ".json";
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+
+            //If directory doesn't exist
+            if(!Directory.Exists(directory)) {
+                Debug.Log(path + " does not exist!");
+                return;
+            }
 
             //Write to file
             using(StreamWriter writer = new StreamWriter(path))
@@ -156,8 +163,15 @@ namespace KStank.stanks_inventory {
         /// Load all of the inventory data.
         /// </summary>
         public void Load() {
-            string path = Application.dataPath + "/Data/" + fileName + ".json";
+            string directory = Application.streamingAssetsPath;
+            string path = directory + "/" + fileName + ".json";
             string json = "";
+
+            //If directory doesn't exist
+            if(!Directory.Exists(directory)) {
+                Debug.Log(path + " does not exist!");
+                return;
+            }
 
             //If file doesn't exist
             if(!File.Exists(path)) {

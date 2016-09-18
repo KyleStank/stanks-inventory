@@ -19,6 +19,9 @@ namespace KStank.stanks_inventory {
         int pos = 0;
         bool collected = false;
 
+        //Saving variables
+        static string fileName = "item-pool.json";
+
         /*
         Properties
         */
@@ -97,8 +100,15 @@ namespace KStank.stanks_inventory {
         /// Loads the entire item pool from a file.
         /// </summary>
         public static void LoadItemPool() {
-            string path = Application.dataPath + "/Data/items-pool.json";
+            string directory = Application.streamingAssetsPath;
+            string path = directory + "/" + fileName;
             string json = "";
+
+            //If directory doesn't exist
+            if(!Directory.Exists(directory)) {
+                Debug.Log(path + " does not exist!");
+                return;
+            }
 
             //If file doesn't exist
             if(!File.Exists(path))
@@ -116,8 +126,15 @@ namespace KStank.stanks_inventory {
         Private Methods
         */
         static void InitItemPool() {
-            string path = Application.dataPath + "/Data/items-pool.json";
+            string directory = Application.streamingAssetsPath;
+            string path = directory + "/" + fileName;
             string json = JsonConvert.SerializeObject(ItemPool, Formatting.Indented);
+
+            //If directory doesn't exist
+            if(!Directory.Exists(directory)) {
+                Debug.Log(path + " does not exist!");
+                return;
+            }
 
             //Write to file
             using(StreamWriter writer = new StreamWriter(path))

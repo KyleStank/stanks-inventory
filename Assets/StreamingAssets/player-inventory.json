@@ -1,0 +1,19 @@
+{
+  "InventoryList": [
+    {
+      "ID": 1,
+      "Name": "Sword",
+      "IconName": "Sword",
+      "Position": 1,
+      "Collected": true
+    },
+    {
+      "ID": 2,
+      "Name": "Axe",
+      "IconName": "Axe",
+      "Position": 3,
+      "Collected": true
+    }
+  ],
+  "MaxItems": 4
+}

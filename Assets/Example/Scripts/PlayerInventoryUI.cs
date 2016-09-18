@@ -84,6 +84,9 @@ namespace KStank.stanks_inventory.Example {
                 if(_item == item) {
                     Slot slot = slots[i];
 
+                    if(slot.DisplayItem != null)
+                        continue;
+
                     slot.UpdateSlot(item);
                 }
             }
