@@ -14,24 +14,30 @@
 	"Collected": false
   },
   {
+    "$type": "KStank.stanks_inventory.Example.Gun, Assembly-CSharp",
+    "Damage": 3.5,
     "ID": 3,
-	"Name": "Handgun",
-	"IconName": "Handgun",
-	"Position": 0,
-	"Collected": false
+    "Name": "Handgun",
+    "IconName": "Handgun",
+    "Position": 0,
+    "Collected": false
   },
   {
+    "$type": "KStank.stanks_inventory.Example.Gun, Assembly-CSharp",
+    "Damage": 4.0,
     "ID": 4,
-	"Name": "SMG",
-	"IconName": "SMG",
-	"Position": 0,
-	"Collected": false
+    "Name": "SMG",
+    "IconName": "SMG",
+    "Position": 0,
+    "Collected": false
   },
   {
+    "$type": "KStank.stanks_inventory.Example.Gun, Assembly-CSharp",
+    "Damage": 5.0,
     "ID": 5,
-	"Name": "SMG 2.0",
-	"IconName": "SMG",
-	"Position": 0,
-	"Collected": false
-  },
+    "Name": "SMG 2.0",
+    "IconName": "SMG",
+    "Position": 0,
+    "Collected": false
+  }
 ]

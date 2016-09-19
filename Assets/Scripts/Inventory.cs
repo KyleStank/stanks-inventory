@@ -146,7 +146,8 @@ namespace KStank.stanks_inventory {
             InventoryJson data = new InventoryJson(InventoryList, MaxItems);
             string directory = Application.streamingAssetsPath;
             string path = directory + "/" + fileName + ".json";
-            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+            string json = JsonConvert.SerializeObject(data, Formatting.Indented, settings);
 
             //If directory doesn't exist
             if(!Directory.Exists(directory)) {
@@ -184,7 +185,8 @@ namespace KStank.stanks_inventory {
                 json = streamReader.ReadToEnd();
 
             //Load information
-            InventoryJson data = JsonConvert.DeserializeObject<InventoryJson>(json);
+            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+            InventoryJson data = JsonConvert.DeserializeObject<InventoryJson>(json, settings);
             MaxItems = data.MaxItems;
             InventoryList = data.InventoryList;
         }

@@ -119,7 +119,8 @@ namespace KStank.stanks_inventory {
                 json = streamReader.ReadToEnd();
 
             //Load information
-            ItemPool = JsonConvert.DeserializeObject<Item[]>(json);
+            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+            ItemPool = JsonConvert.DeserializeObject<Item[]>(json, settings);
         }
 
         /*
@@ -128,7 +129,8 @@ namespace KStank.stanks_inventory {
         static void InitItemPool() {
             string directory = Application.streamingAssetsPath;
             string path = directory + "/" + fileName;
-            string json = JsonConvert.SerializeObject(ItemPool, Formatting.Indented);
+            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+            string json = JsonConvert.SerializeObject(ItemPool, Formatting.Indented, settings);
 
             //If directory doesn't exist
             if(!Directory.Exists(directory)) {
@@ -141,6 +143,11 @@ namespace KStank.stanks_inventory {
                 writer.WriteLine(json);
         }
         
+        /// <summary>
+        /// Empty constructor for Item.
+        /// </summary>
+        public Item() { }
+
         /// <summary>
         /// Object that can go inside of the inventory.
         /// </summary>

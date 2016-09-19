@@ -1,10 +1,28 @@
 {
   "InventoryList": [
     {
+      "$type": "KStank.stanks_inventory.Example.Gun, Assembly-CSharp",
+      "Damage": 3.5,
+      "ID": 3,
+      "Name": "Handgun",
+      "IconName": "Handgun",
+      "Position": 0,
+      "Collected": true
+    },
+    {
+      "$type": "KStank.stanks_inventory.Example.Gun, Assembly-CSharp",
+      "Damage": 4.0,
+      "ID": 4,
+      "Name": "SMG",
+      "IconName": "SMG",
+      "Position": 1,
+      "Collected": true
+    },
+    {
       "ID": 1,
       "Name": "Sword",
       "IconName": "Sword",
-      "Position": 1,
+      "Position": 2,
       "Collected": true
     },
     {

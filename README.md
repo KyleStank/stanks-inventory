@@ -7,3 +7,7 @@ stanks-inventory is a easy to use inventory framework for Unity3D. If you are cr
 - Drag and drop items
 - Easily save and load inventories
 - Items can be easily swapped
+- Create custom items with custom properties to be saved
+
+## Plans
+- Stackable Items
