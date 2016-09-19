@@ -17,7 +17,8 @@ namespace KStank.stanks_inventory {
         Sprite icon = null;
         string iconName = "";
         int pos = 0;
-        bool collected = false;
+        int stackSize = 0;
+        int maxStackSize = 1;
 
         //Saving variables
         static string fileName = "item-pool.json";
@@ -54,10 +55,10 @@ namespace KStank.stanks_inventory {
         /// </summary>
         public string IconName {
             get {
-                if(icon != null)
-                    return icon.name;
+                if(icon == null)
+                    return iconName;
 
-                return iconName;
+                return icon.name;
             }
             set { iconName = value; }
         }
@@ -71,15 +72,23 @@ namespace KStank.stanks_inventory {
         }
 
         /// <summary>
-        /// Is the item collected or not?
+        /// Current stack size of item.
         /// </summary>
-        public bool Collected {
-            get { return collected; }
-            set { collected = value; }
+        public int StackSize {
+            get { return stackSize; }
+            set { stackSize = value; }
+        }
+
+        /// <summary>
+        /// Max stack size of item.
+        /// </summary>
+        public int MaxStackSize {
+            get { return maxStackSize; }
+            set { maxStackSize = value; }
         }
 
         /*
-        Public Methods
+        Public Static Methods
         */
         /// <summary>
         /// Searches the entire item pool for a specifc item.
@@ -151,11 +160,11 @@ namespace KStank.stanks_inventory {
         /// <summary>
         /// Object that can go inside of the inventory.
         /// </summary>
-        /// <param name="name">Name of the item.</param>
-        /// <param name="position">Position of the item.</param>
-        public Item(string name, int position) {
-            Name = name;
-            Position = position;
+        /// <param name="Name">Name of the item.</param>
+        /// <param name="Position">Position of the item.</param>
+        public Item(string Name, int Position) {
+            this.Name = Name;
+            this.Position = Position;
         }
     }
 }

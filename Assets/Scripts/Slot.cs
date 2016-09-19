@@ -11,6 +11,8 @@ namespace KStank.stanks_inventory {
         Item displayItem = null;
         [SerializeField]
         Image iconImage = null;
+        [SerializeField]
+        Text stackSizeText = null;
 
         /// <summary>
         /// The Item that will be displayed to the screen.
@@ -28,8 +30,19 @@ namespace KStank.stanks_inventory {
             set { iconImage = value; }
         }
 
+        public Text StackSizeText {
+            get { return stackSizeText; }
+            set { stackSizeText = value; }
+        }
+
         void Awake() {
-            iconImage = transform.GetChild(0).GetComponent<Image>();
+            if(IconImage == null) {
+                IconImage = transform.GetChild(0).GetComponent<Image>();
+
+                if(StackSizeText == null)
+                    StackSizeText = IconImage.transform.GetChild(0).GetComponent<Text>();
+            }
+
             ResetSlot();
         }
 
@@ -42,10 +55,13 @@ namespace KStank.stanks_inventory {
 
             if(DisplayItem == null) {
                 IconImage.sprite = null;
+                StackSizeText.text = "";
+
                 return;
             }
 
             IconImage.sprite = Resources.Load("Item Icons/" + DisplayItem.IconName, typeof(Sprite)) as Sprite;
+            StackSizeText.text = DisplayItem.StackSize.ToString();
         }
 
         /// <summary>

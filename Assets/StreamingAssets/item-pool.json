@@ -4,14 +4,18 @@
 	"Name": "Sword",
 	"IconName": "Sword",
 	"Position": 0,
-	"Collected": false
+	"Collected": false,
+	"StackSize": 0,
+    "MaxStackSize": 1
   },
   {
     "ID": 2,
 	"Name": "Axe",
 	"IconName": "Axe",
 	"Position": 0,
-	"Collected": false
+	"Collected": false,
+	"StackSize": 0,
+    "MaxStackSize": 1
   },
   {
     "$type": "KStank.stanks_inventory.Example.Gun, Assembly-CSharp",
@@ -20,7 +24,9 @@
     "Name": "Handgun",
     "IconName": "Handgun",
     "Position": 0,
-    "Collected": false
+    "Collected": false,
+	"StackSize": 0,
+    "MaxStackSize": 1
   },
   {
     "$type": "KStank.stanks_inventory.Example.Gun, Assembly-CSharp",
@@ -29,7 +35,9 @@
     "Name": "SMG",
     "IconName": "SMG",
     "Position": 0,
-    "Collected": false
+    "Collected": false,
+	"StackSize": 0,
+    "MaxStackSize": 1
   },
   {
     "$type": "KStank.stanks_inventory.Example.Gun, Assembly-CSharp",
@@ -38,6 +46,8 @@
     "Name": "SMG 2.0",
     "IconName": "SMG",
     "Position": 0,
-    "Collected": false
+    "Collected": false,
+	"StackSize": 0,
+    "MaxStackSize": 1
   }
 ]

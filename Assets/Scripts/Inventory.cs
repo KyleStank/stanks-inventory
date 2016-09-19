@@ -90,10 +90,6 @@ namespace KStank.stanks_inventory {
             }
         }
 
-        public void Add(int id) {
-            Add(Find(id));
-        }
-
         /// <summary>
         /// Removes an item from the inventory.
         /// </summary>
@@ -118,14 +114,22 @@ namespace KStank.stanks_inventory {
         /// </summary>
         /// <param name="item">Item that is being picked up.</param>
         public void Pickup(Item item) {
-            if(!item.Collected && IsRoom()) { //If item hasn't already been picked up
-                if(Find(item.ID) != null)
-                    return;
+            if(item == null)
+                return;
+            
+            Item realItem = Find(item.ID);
 
-                item.Collected = true;
-                
+            if(realItem == null) { //If item isn't on list
+                item.StackSize++;
                 Add(item);
+
+                return;
             }
+
+            if(realItem.StackSize >= realItem.MaxStackSize) //Make sure stack size isn't too big
+                return;
+
+            realItem.StackSize++;
         }
 
         /// <summary>
@@ -154,7 +158,7 @@ namespace KStank.stanks_inventory {
                 Debug.Log(path + " does not exist!");
                 return;
             }
-
+            
             //Write to file
             using(StreamWriter writer = new StreamWriter(path))
                 writer.WriteLine(json);
@@ -183,7 +187,7 @@ namespace KStank.stanks_inventory {
             //Read json contents from file
             using(StreamReader streamReader = new StreamReader(path))
                 json = streamReader.ReadToEnd();
-
+            
             //Load information
             JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
             InventoryJson data = JsonConvert.DeserializeObject<InventoryJson>(json, settings);
