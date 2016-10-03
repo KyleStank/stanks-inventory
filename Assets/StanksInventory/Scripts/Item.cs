@@ -20,9 +20,6 @@ namespace KStank.stanks_inventory {
         int stackSize = 0;
         int maxStackSize = 1;
 
-        //Saving variables
-        static string fileName = "item-pool.json";
-
         /*
         Properties
         */
@@ -109,8 +106,9 @@ namespace KStank.stanks_inventory {
         /// Loads the entire item pool from a file.
         /// </summary>
         public static void LoadItemPool() {
-            string directory = Application.streamingAssetsPath;
-            string path = directory + "/" + fileName;
+            string directory = Util.streamingAssetsDir;
+            string path = Util.itemPoolPath;
+
             string json = "";
 
             //If directory doesn't exist
@@ -136,8 +134,9 @@ namespace KStank.stanks_inventory {
         Private Methods
         */
         static void InitItemPool() {
-            string directory = Application.streamingAssetsPath;
-            string path = directory + "/" + fileName;
+            string directory = Util.streamingAssetsDir;
+            string path = Util.itemPoolPath;
+
             JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
             string json = JsonConvert.SerializeObject(ItemPool, Formatting.Indented, settings);
 

@@ -1,0 +1,23 @@
+{
+  "InventoryList": [
+    {
+      "ID": 1,
+      "Name": "Sword",
+      "IconName": "Sword",
+      "Position": 3,
+      "StackSize": 1,
+      "MaxStackSize": 1
+    },
+    {
+      "$type": "KStank.stanks_inventory.Example.Gun, Assembly-CSharp",
+      "Damage": 3.5,
+      "ID": 3,
+      "Name": "Handgun",
+      "IconName": "Handgun",
+      "Position": 0,
+      "StackSize": 1,
+      "MaxStackSize": 1
+    }
+  ],
+  "MaxItems": 4
+}

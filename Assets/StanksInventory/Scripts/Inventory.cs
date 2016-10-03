@@ -147,10 +147,12 @@ namespace KStank.stanks_inventory {
         /// Save the information of inventory.
         /// </summary>
         public void Save() {
+            string directory = Util.streamingAssetsDir;
+            string path = Util.playerInventoryPath;
+
             InventoryJson data = new InventoryJson(InventoryList, MaxItems);
-            string directory = Application.streamingAssetsPath;
-            string path = directory + "/" + fileName + ".json";
             JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+
             string json = JsonConvert.SerializeObject(data, Formatting.Indented, settings);
 
             //If directory doesn't exist
@@ -168,8 +170,9 @@ namespace KStank.stanks_inventory {
         /// Load all of the inventory data.
         /// </summary>
         public void Load() {
-            string directory = Application.streamingAssetsPath;
-            string path = directory + "/" + fileName + ".json";
+            string directory = Util.streamingAssetsDir;
+            string path = Util.playerInventoryPath;
+
             string json = "";
 
             //If directory doesn't exist
