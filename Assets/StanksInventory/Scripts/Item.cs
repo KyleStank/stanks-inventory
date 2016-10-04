@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
+using System.Collections.Generic;
 
 namespace KStank.stanks_inventory {
     /// <summary>
@@ -9,7 +10,8 @@ namespace KStank.stanks_inventory {
     [System.Serializable]
     public class Item {
         //Private variables
-        static Item[] itemPool = new Item[0];
+        //static Item[] itemPool = new Item[0];
+        static List<Item> itemPool = new List<Item>();
         int id = 0;
         [SerializeField]
         string name = "";
@@ -26,7 +28,7 @@ namespace KStank.stanks_inventory {
         /// <summary>
         /// Array of every item in the game.
         /// </summary>
-        public static Item[] ItemPool {
+        public static List<Item> ItemPool {
             get { return itemPool; }
             private set { itemPool = value; }
         }
@@ -94,12 +96,29 @@ namespace KStank.stanks_inventory {
         /// <returns>Item if it was found. Returns null if no item was found.</returns>
         public static Item LookUpItem(int id) {
             //Search entire item pool for ID
-            foreach(Item i in itemPool) {
+            foreach(Item i in ItemPool) {
                 if(i.ID == id)
                     return i;
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Removes an item from the item pool.
+        /// </summary>
+        /// <param name="item">Item to remove.</param>
+        public static void RemoveItem(Item item) {
+            if(item == null)
+                return;
+
+            Item _item = LookUpItem(item.ID);
+
+            if(_item == null)
+                return;
+
+            ItemPool.Remove(item);
+            //AssignCorrectIDS();
         }
 
         /// <summary>
@@ -119,7 +138,7 @@ namespace KStank.stanks_inventory {
 
             //If file doesn't exist
             if(!File.Exists(path))
-                InitItemPool();
+                SaveItemPool();
 
             //Read json contents from file
             using(StreamReader streamReader = new StreamReader(path))
@@ -127,13 +146,13 @@ namespace KStank.stanks_inventory {
 
             //Load information
             JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
-            ItemPool = JsonConvert.DeserializeObject<Item[]>(json, settings);
+            ItemPool = JsonConvert.DeserializeObject<List<Item>>(json, settings);
         }
 
-        /*
-        Private Methods
-        */
-        static void InitItemPool() {
+        /// <summary>
+        /// Saves the entire item pool to a file.
+        /// </summary>
+        public static void SaveItemPool() {
             string directory = Util.streamingAssetsDir;
             string path = Util.itemPoolPath;
 
@@ -146,9 +165,27 @@ namespace KStank.stanks_inventory {
                 return;
             }
 
+            //If file doesn't exist
+            if(!File.Exists(path))
+                SaveItemPool();
+
             //Write to file
             using(StreamWriter writer = new StreamWriter(path))
                 writer.WriteLine(json);
+        }
+
+        /*
+        Private Methods
+        */
+        //Assigns the correct IDs to each item. Useful after something is removed
+        static void AssignCorrectIDS() {
+            int lastId = 1;
+
+            foreach(Item item in ItemPool) {
+                Debug.Log("Name: " + item.Name + " - ID: " + item.ID);
+
+
+            }
         }
         
         /// <summary>

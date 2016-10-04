@@ -12,9 +12,6 @@ namespace KStank.stanks_inventory {
         List<Item> inventoryList = new List<Item>();
         int maxItems = 0;
 
-        [SerializeField]
-        string fileName = "";
-
         /*
         Properties
         */
