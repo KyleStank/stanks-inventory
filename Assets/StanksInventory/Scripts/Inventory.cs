@@ -82,20 +82,19 @@ namespace KStank.stanks_inventory {
             if(item == null)
                 return;
 
+            Item i = Find(item.ID);
+
             if(IsRoom()) { //If there is room to add the item
-                Item i = Find(item.ID);
-
-                if(i == null) {
+                if(i == null)
                     inventoryList.Add(item);
-                } else {
-                    if(i.StackSize < i.MaxStackSize)
-                        i.StackSize++;
-                }
 
-                AssignCorrectIDS();
                 AssignCorrectItems();
 
                 item.Position = TakenSpace - 1;
+            } else {
+                if(i != null)
+                    if(i.StackSize < i.MaxStackSize)
+                        i.StackSize++;
             }
         }
 
@@ -119,29 +118,6 @@ namespace KStank.stanks_inventory {
         }
 
         /// <summary>
-        /// Picks up an object. Not the same as Inventory.Add(). This handles everything needed during an item pickup.
-        /// </summary>
-        /// <param name="item">Item that is being picked up.</param>
-        public void Pickup(Item item) {
-            if(item == null)
-                return;
-            
-            Item realItem = Find(item.ID);
-
-            if(realItem == null) { //If item isn't on list
-                item.StackSize++;
-                Add(item);
-
-                return;
-            }
-
-            if(realItem.StackSize >= realItem.MaxStackSize) //Make sure stack size isn't too big
-                return;
-
-            realItem.StackSize++;
-        }
-
-        /// <summary>
         /// Tells if there is or is not any room left in the inventory.
         /// </summary>
         /// <returns>True if there is room, false if not.</returns>
@@ -159,7 +135,6 @@ namespace KStank.stanks_inventory {
             string directory = Util.streamingAssetsDir;
             string path = directory + fileName + ".json";
 
-            AssignCorrectIDS();
             AssignCorrectItems();
 
             InventoryJson data = new InventoryJson(InventoryList, MaxItems);
@@ -209,26 +184,7 @@ namespace KStank.stanks_inventory {
             MaxItems = data.MaxItems;
             InventoryList = data.InventoryList;
 
-            AssignCorrectIDS();
             AssignCorrectItems();
-        }
-
-        /*
-        Private Methods
-        */
-        //Assigns the correct IDs to each item. Useful after something is removed
-        void AssignCorrectIDS() {
-            int lastId = 1;
-
-            foreach(Item item in InventoryList) {
-                if(item.ID == lastId) {
-                    lastId++;
-                    continue;
-                }
-
-                item.ID = lastId;
-                lastId++;
-            }
         }
 
         //Assign the correct items to the inventory from the Item Pool.
@@ -249,7 +205,8 @@ namespace KStank.stanks_inventory {
                 //Assign old values back.
                 item.Name = pastItem.Name;
                 item.Position = pastItem.Position;
-                item.StackSize = Mathf.Clamp(pastItem.StackSize, 0, pastItem.MaxStackSize);
+                //item.StackSize = Mathf.Clamp(pastItem.StackSize, 0, pastItem.MaxStackSize);
+                item.StackSize = pastItem.StackSize;
                 item.MaxStackSize = pastItem.MaxStackSize;
 
                 //Set "new" item

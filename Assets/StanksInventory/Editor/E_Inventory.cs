@@ -9,10 +9,6 @@ namespace KStank.stanks_inventory {
 
         bool[] itemActive = new bool[0];
 
-        Item itemToAdd;
-        bool addingItem = false;
-        int itemToAddId = 1;
-
         public override void OnInspectorGUI() {
             GUI.changed = false;
 
@@ -24,33 +20,9 @@ namespace KStank.stanks_inventory {
             EditorUtil.AddSpace(2);
 
             if(GUILayout.Button("Add Item", EditorStyles.toolbarButton))
-                addingItem = !addingItem;
+                AddItemWindow.Init(inventory);
 
-            if(addingItem) {
-                EditorGUILayout.BeginVertical();
-                
-                itemToAddId = EditorGUILayout.IntField(new GUIContent("ID: "), itemToAddId);
-
-                if(GUILayout.Button(new GUIContent("Look Up Item"))) {
-                    itemToAdd = Item.LookUpItem(itemToAddId);
-
-                    if(itemToAdd == null) {
-                        Debug.Log("Item not found!");
-                    } else {
-                        //Yes, this is redundent. But it prevents a bug, so its needed
-                        Item invItem = inventory.Find(itemToAdd.ID);
-
-                        if(invItem != null)
-                            itemToAdd = invItem;
-                        
-                        AddItemWindow.Init(inventory, itemToAdd);
-                    }
-                }
-
-                EditorGUILayout.EndVertical();
-            }
-
-            EditorUtil.AddSpace(2);
+            EditorUtil.AddSpace(1);
 
             inventory.fileName = EditorGUILayout.TextField(new GUIContent("File Name: "), inventory.fileName);
 
@@ -121,45 +93,80 @@ namespace KStank.stanks_inventory {
         public static AddItemWindow window;
 
         static Inventory inventory = null;
-        static Item item = null;
+        static Item item = new Item();
 
-        public static void Init(Inventory inventory, Item item) {
+        static int itemId = 0;
+        static string itemName = "";
+        static bool isPreviewingItem = false;
+
+        public static void Init(Inventory inventory) {
             window = GetWindow(typeof(AddItemWindow)) as AddItemWindow;
-            window.titleContent.text = "Add this item?";
+            window.titleContent.text = "Item Search";
             window.position = windowRect;
             window.Show();
 
             AddItemWindow.inventory = inventory;
-            AddItemWindow.item = item;
+
+            itemId = 0;
+            itemName = "";
+            isPreviewingItem = false;
         }
 
         void OnGUI() {
             GUI.changed = false;
 
-            if(item == null)
-                return;
-
             EditorGUILayout.BeginVertical();
 
+            EditorGUILayout.LabelField(new GUIContent("Enter the ID or name of the item your looking for."));
+            itemId = EditorGUILayout.IntField(new GUIContent("ID: "), itemId);
+            itemName = EditorGUILayout.TextField(new GUIContent("Name: "), itemName);
+
+            EditorUtil.AddSpace(1);
+
+            if(GUILayout.Button("Search")) {
+                Item searchItem;
+
+                if(itemId > 0)
+                    searchItem = Item.LookUpItem(itemId);
+                else
+                    searchItem = Item.LookUpItem(itemName);
+
+                if(searchItem == null) {
+                    Debug.Log("Item not found!");
+                    return;
+                }
+
+                item = searchItem;
+
+                //Check if item already exists in inventory, so we can stack it, if possible
+                Item invItem = inventory.Find(item.ID);
+
+                if(invItem != null)
+                    item = invItem;
+
+                isPreviewingItem = true;
+            }
+
+            if(isPreviewingItem) {
+                EditorUtil.AddSpace(2);
+
+                DisplayResults();
+
+                if(GUILayout.Button(new GUIContent("Add Item"))) {
+                    inventory.Add(item);
+
+                    window.Close();
+                }
+            }
+
+            EditorGUILayout.EndVertical();
+        }
+
+        void DisplayResults() {
             EditorGUILayout.LabelField(new GUIContent("ID: " + item.ID));
             EditorGUILayout.LabelField(new GUIContent("Name: " + item.Name));
             EditorGUILayout.LabelField(new GUIContent("Icon Name: " + item.IconName));
             EditorGUILayout.LabelField(new GUIContent("Max Stack Size: " + item.MaxStackSize));
-
-            EditorUtil.AddSpace(1);
-
-            EditorGUILayout.LabelField(new GUIContent("Are you sure you want to add this item?"));
-            EditorGUILayout.LabelField(new GUIContent("If you already have it, it won't be added!"));
-
-            EditorUtil.AddSpace(1);
-
-            if(GUILayout.Button("Add")) {
-                inventory.Add(item);
-
-                window.Close();
-            }
-
-            EditorGUILayout.EndVertical();
         }
     }
 }

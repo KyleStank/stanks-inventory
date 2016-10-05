@@ -75,7 +75,10 @@ namespace KStank.stanks_inventory {
         /// </summary>
         public int StackSize {
             get { return stackSize; }
-            set { stackSize = value; }
+            set {
+                stackSize = value;
+                stackSize = Mathf.Clamp(stackSize, 0, maxStackSize);
+            }
         }
 
         /// <summary>
@@ -93,12 +96,27 @@ namespace KStank.stanks_inventory {
         /// Searches the entire item pool for a specifc item.
         /// </summary>
         /// <param name="id">ID of the item to search for.</param>
-        /// <returns>Item if it was found. Returns null if no item was found.</returns>
+        /// <returns>Item if it was found. Null if no item was found.</returns>
         public static Item LookUpItem(int id) {
             //Search entire item pool for ID
             foreach(Item i in ItemPool)
                 if(i.ID == id)
                     return i;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Searches the entire item poll for a specific item.
+        /// </summary>
+        /// <param name="name">Name of the item to search for.</param>
+        /// <returns>Item if it was found. Null if no item was found.</returns>
+        public static Item LookUpItem(string name) {
+            //Search entire item pool for name
+            foreach(Item i in ItemPool) {
+                if(i.Name == name)
+                    return i;
+            }
 
             return null;
         }

@@ -125,6 +125,8 @@ namespace KStank.stanks_inventory {
                     window.Close();
             }
 
+            EditorUtil.AddSpace(1);
+
             if(GUILayout.Button(new GUIContent("Remove"))) {
                 FindItem(item);
 
@@ -138,6 +140,11 @@ namespace KStank.stanks_inventory {
 
                 window.Close();
             }
+
+            EditorUtil.AddSpace(1);
+
+            if(GUILayout.Button(new GUIContent("Back")))
+                window.Close();
 
             EditorGUILayout.EndVertical();
         }

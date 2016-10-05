@@ -70,7 +70,8 @@ namespace KStank.stanks_inventory.Example {
             if(item == null)
                 return;
 
-            inventory.Pickup(item);
+            item.StackSize++;
+            inventory.Add(item);
             
             //Go through every item in inventory
             for(int i = 0; i < inventory.TakenSpace; i++) {
