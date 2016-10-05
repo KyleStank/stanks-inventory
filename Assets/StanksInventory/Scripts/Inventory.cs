@@ -8,6 +8,8 @@ namespace KStank.stanks_inventory {
     /// Inventory class. Simply use "new Inventory()" to create an Inventory for anything.
     /// </summary>
     public class Inventory : MonoBehaviour {
+        public string fileName = "";
+
         //Private variables
         List<Item> inventoryList = new List<Item>();
         int maxItems = 0;
@@ -81,7 +83,17 @@ namespace KStank.stanks_inventory {
                 return;
 
             if(IsRoom()) { //If there is room to add the item
-                InventoryList.Add(item);
+                Item i = Find(item.ID);
+
+                if(i == null) {
+                    inventoryList.Add(item);
+                } else {
+                    if(i.StackSize < i.MaxStackSize)
+                        i.StackSize++;
+                }
+
+                AssignCorrectIDS();
+                AssignCorrectItems();
 
                 item.Position = TakenSpace - 1;
             }
@@ -145,7 +157,10 @@ namespace KStank.stanks_inventory {
         /// </summary>
         public void Save() {
             string directory = Util.streamingAssetsDir;
-            string path = Util.playerInventoryPath;
+            string path = directory + fileName + ".json";
+
+            AssignCorrectIDS();
+            AssignCorrectItems();
 
             InventoryJson data = new InventoryJson(InventoryList, MaxItems);
             JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
@@ -168,7 +183,7 @@ namespace KStank.stanks_inventory {
         /// </summary>
         public void Load() {
             string directory = Util.streamingAssetsDir;
-            string path = Util.playerInventoryPath;
+            string path = directory + fileName + ".json";
 
             string json = "";
 
@@ -193,6 +208,53 @@ namespace KStank.stanks_inventory {
             InventoryJson data = JsonConvert.DeserializeObject<InventoryJson>(json, settings);
             MaxItems = data.MaxItems;
             InventoryList = data.InventoryList;
+
+            AssignCorrectIDS();
+            AssignCorrectItems();
+        }
+
+        /*
+        Private Methods
+        */
+        //Assigns the correct IDs to each item. Useful after something is removed
+        void AssignCorrectIDS() {
+            int lastId = 1;
+
+            foreach(Item item in InventoryList) {
+                if(item.ID == lastId) {
+                    lastId++;
+                    continue;
+                }
+
+                item.ID = lastId;
+                lastId++;
+            }
+        }
+
+        //Assign the correct items to the inventory from the Item Pool.
+        void AssignCorrectItems() {
+            //Assign items correctly
+            for(int i = 0; i < TakenSpace; i++) {
+                Item item = InventoryList[i];
+                Item _item = Item.LookUpItem(item.ID);
+
+                if(_item == null) {
+                    Remove(item);
+                    continue;
+                }
+
+                Item pastItem = item;
+                item = _item;
+
+                //Assign old values back.
+                item.Name = pastItem.Name;
+                item.Position = pastItem.Position;
+                item.StackSize = Mathf.Clamp(pastItem.StackSize, 0, pastItem.MaxStackSize);
+                item.MaxStackSize = pastItem.MaxStackSize;
+
+                //Set "new" item
+                InventoryList[i] = item;
+            }
         }
 
         class InventoryJson {

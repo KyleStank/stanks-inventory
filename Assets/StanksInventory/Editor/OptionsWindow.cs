@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections;
 
 namespace KStank.stanks_inventory {
-    public class OptionsWindow : EditorWindow {
+    public sealed class OptionsWindow : EditorWindow {
         public static Rect windowRect = new Rect(500.0f, 200.0f, 300.0f, 300.0f);
         public static OptionsWindow window;
 
@@ -45,14 +45,13 @@ namespace KStank.stanks_inventory {
                 EditorUtil.Indent();
 
                 createItemBtnMsg = "Hide Creation Section";
-
-                itemToCreate.ID = EditorGUILayout.IntField(new GUIContent("ID: "), itemToCreate.ID);
+                
                 itemToCreate.Name = EditorGUILayout.TextField(new GUIContent("Name: "), itemToCreate.Name);
                 itemToCreate.IconName = EditorGUILayout.TextField(new GUIContent("Icon Name: "), itemToCreate.IconName);
                 itemToCreate.MaxStackSize = EditorGUILayout.IntField(new GUIContent("Max Stack Size: "), itemToCreate.MaxStackSize);
 
                 if(GUILayout.Button(new GUIContent("Add Item"))) {
-                    Item.ItemPool.Add(itemToCreate);
+                    Item.AddItem(itemToCreate);
                     Item.SaveItemPool();
 
                     itemToCreate = new Item();
@@ -83,23 +82,24 @@ namespace KStank.stanks_inventory {
         }
 
         void ViewItem(Item item) {
-            ItemWindow.Init(item);
+            ViewItemWindow.Init(item);
         }
     }
 
-    class ItemWindow : EditorWindow {
+    class ViewItemWindow : EditorWindow {
         public static Rect windowRect = new Rect(500.0f, 200.0f, 400.0f, 400.0f);
-        public static ItemWindow window;
+        public static ViewItemWindow window;
 
         static Item item = null;
+        bool closeAfterSave = false;
         
         public static void Init(Item item) {
-            window = (ItemWindow)GetWindow(typeof(ItemWindow));
-            window.titleContent.text = "Item Pool";
+            window = (ViewItemWindow)GetWindow(typeof(ViewItemWindow));
+            window.titleContent.text = item.Name;
             window.position = windowRect;
             window.Show();
 
-            ItemWindow.item = item;
+            ViewItemWindow.item = item;
         }
 
         void OnGUI() {
@@ -110,15 +110,19 @@ namespace KStank.stanks_inventory {
             if(item == null)
                 return;
 
-            item.ID = EditorGUILayout.IntField(new GUIContent("ID: "), item.ID);
+            EditorGUILayout.LabelField(new GUIContent("ID: " + item.ID));
             item.Name = EditorGUILayout.TextField(new GUIContent("Name: "), item.Name);
             item.IconName = EditorGUILayout.TextField(new GUIContent("Icon Name: "), item.IconName);
             item.MaxStackSize = EditorGUILayout.IntField(new GUIContent("Max Stack Size:"), item.MaxStackSize);
+            closeAfterSave = EditorGUILayout.Toggle(new GUIContent("Close After Save?"), closeAfterSave);
 
             if(GUILayout.Button(new GUIContent("Save"))) {
                 FindItem(item);
 
                 Item.SaveItemPool();
+
+                if(closeAfterSave)
+                    window.Close();
             }
 
             if(GUILayout.Button(new GUIContent("Remove"))) {

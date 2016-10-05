@@ -96,12 +96,28 @@ namespace KStank.stanks_inventory {
         /// <returns>Item if it was found. Returns null if no item was found.</returns>
         public static Item LookUpItem(int id) {
             //Search entire item pool for ID
-            foreach(Item i in ItemPool) {
+            foreach(Item i in ItemPool)
                 if(i.ID == id)
                     return i;
-            }
 
             return null;
+        }
+
+        /// <summary>
+        /// Adds an item to the item pool.
+        /// </summary>
+        /// <param name="item">Item to add.</param>
+        public static void AddItem(Item item) {
+            if(item == null)
+                return;
+
+            Item _item = LookUpItem(item.ID);
+
+            if(_item != null)
+                return;
+
+            ItemPool.Add(item);
+            AssignCorrectIDS();
         }
 
         /// <summary>
@@ -118,7 +134,7 @@ namespace KStank.stanks_inventory {
                 return;
 
             ItemPool.Remove(item);
-            //AssignCorrectIDS();
+            AssignCorrectIDS();
         }
 
         /// <summary>
@@ -182,9 +198,13 @@ namespace KStank.stanks_inventory {
             int lastId = 1;
 
             foreach(Item item in ItemPool) {
-                Debug.Log("Name: " + item.Name + " - ID: " + item.ID);
+                if(item.ID == lastId) {
+                    lastId++;
+                    continue;
+                }
 
-
+                item.ID = lastId;
+                lastId++;
             }
         }
         

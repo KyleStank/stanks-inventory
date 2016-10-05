@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d4d1f27bbd045e648ab99580e3864f17
+guid: 953d8ab62baba694d8f26356d52da303
 timeCreated: 1472689631
 licenseType: Free
 TextureImporter:
@@ -48,12 +48,7 @@ TextureImporter:
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings:
-  - buildTarget: Standalone
-    maxTextureSize: 256
-    textureFormat: -3
-    compressionQuality: 50
-    allowsAlphaSplitting: 0
+  buildTargetSettings: []
   spriteSheet:
     serializedVersion: 2
     sprites: []

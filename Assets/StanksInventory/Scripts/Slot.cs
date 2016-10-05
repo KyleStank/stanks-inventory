@@ -60,7 +60,7 @@ namespace KStank.stanks_inventory {
                 return;
             }
 
-            IconImage.sprite = Resources.Load(Util.itemIconsPath + DisplayItem.IconName, typeof(Sprite)) as Sprite;
+            IconImage.sprite = Util.LoadIcon(DisplayItem.IconName);
             StackSizeText.text = DisplayItem.StackSize.ToString();
         }
 

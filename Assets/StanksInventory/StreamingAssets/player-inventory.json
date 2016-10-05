@@ -1,6 +1,13 @@
 {
   "InventoryList": [
-    
+    {
+      "ID": 1,
+      "Name": "Sword",
+      "IconName": "Sword",
+      "Position": 0,
+      "StackSize": 1,
+      "MaxStackSize": 1
+    }
   ],
-  "MaxItems": 4
+  "MaxItems": 2
 }
